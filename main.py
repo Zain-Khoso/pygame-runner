@@ -6,6 +6,7 @@ pygame.display.set_caption("Runner")
 screen = pygame.display.set_mode((800, 400))
 clock = pygame.time.Clock()
 font = pygame.font.Font("font/Pixeltype.ttf", 50)
+game_active = True
 
 sky_surf = pygame.image.load("graphics/Sky.png").convert()
 groung_surf = pygame.image.load("graphics/ground.png").convert()
@@ -34,26 +35,28 @@ while True:
             if event.key == pygame.K_SPACE and player_rect.bottom == 300:
                 player_gravity = -15
 
-    screen.blit(sky_surf, (0, 0))
-    screen.blit(groung_surf, (0, 300))
+    if game_active:
+        screen.blit(sky_surf, (0, 0))
+        screen.blit(groung_surf, (0, 300))
 
-    screen.blit(score_surf, score_rect)
+        screen.blit(score_surf, score_rect)
 
-    snail_rect.x -= 4
-    if snail_rect.right <= 0:
-        snail_rect.left = 800
+        snail_rect.x -= 4
+        if snail_rect.right <= 0:
+            snail_rect.left = 800
 
-    screen.blit(snail_surf, snail_rect)
+        screen.blit(snail_surf, snail_rect)
 
-    player_gravity += 1
-    player_rect.bottom += player_gravity
-    if player_rect.bottom > 300:
-        player_rect.bottom = 300
-    screen.blit(player_surf, player_rect)
+        player_gravity += 1
+        player_rect.bottom += player_gravity
+        if player_rect.bottom > 300:
+            player_rect.bottom = 300
+        screen.blit(player_surf, player_rect)
 
-    if player_rect.colliderect(snail_rect):
-        pygame.quit()
-        exit()
+        if player_rect.colliderect(snail_rect):
+            game_active = False
+    else:
+        screen.fill("Red")
 
     pygame.display.update()
     clock.tick(60)
