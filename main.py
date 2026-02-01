@@ -25,8 +25,10 @@ groung_surf = pygame.image.load("graphics/ground.png").convert()
 snail_surf = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
 snail_rect = snail_surf.get_rect(bottomleft=(800, 300))
 
+obsticle_rect_list = []
+
 player_surf = pygame.image.load("graphics/Player/player_walk_1.png").convert_alpha()
-player_rect = player_surf.get_rect(midbottom=(50, 300))
+player_rect = player_surf.get_rect(midbottom=(150, 300))
 player_gravity = 0
 
 title_surf = font.render("Pygame Runner", False, "Black")
