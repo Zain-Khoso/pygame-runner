@@ -37,5 +37,7 @@ while True:
     screen.blit(snail_surf, snail_rect)
     screen.blit(player_surf, player_rect)
 
+    player_rect.colliderect(snail_rect)
+
     pygame.display.update()
     clock.tick(60)
