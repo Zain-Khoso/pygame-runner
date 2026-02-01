@@ -15,8 +15,8 @@ class Player(pygame.sprite.Sprite):
         self.jump_frame = pygame.image.load("graphics/Player/jump.png").convert_alpha()
 
         self.frames = [frame_1, frame_2]
-        self.surf = self.frames[self.frame]
-        self.rect = self.surf.get_rect(midbottom=(200, 300))
+        self.image = self.frames[self.frame]
+        self.rect = self.image.get_rect(midbottom=(200, 300))
 
     def player_input(self):
         keys = pygame.key.get_pressed()
@@ -67,8 +67,8 @@ class Obsticle(pygame.sprite.Sprite):
         y_pos = 210 if type == "Fly" else 300
 
         self.frame = 0
-        self.surf = self.frames[self.frame]
-        self.rect = self.surf.get_rect(midbottom=(randint(900, 1100), y_pos))
+        self.image = self.frames[self.frame]
+        self.rect = self.image.get_rect(midbottom=(randint(900, 1100), y_pos))
 
     def animate(self):
         self.frame += 0.1
@@ -76,7 +76,7 @@ class Obsticle(pygame.sprite.Sprite):
         if self.frame >= len(self.frames):
             self.frame = 0
 
-        self.surf = self.frames[int(self.frame)]
+        self.image = self.frames[int(self.frame)]
 
     def destroy(self):
         if self.rect.x < -100:
@@ -97,20 +97,6 @@ def display_score():
     return current_time
 
 
-def obsticle_movement(obsticle_list):
-    if obsticle_list:
-        for obsticle_rect in obsticle_list:
-            obsticle_rect.x -= 5
-
-            screen.blit(
-                snail_surf if obsticle_rect.bottom == 300 else fly_surf, obsticle_rect
-            )
-
-        obsticle_list = [obsticle for obsticle in obsticle_list if obsticle.x > -100]
-
-    return obsticle_list
-
-
 def collisions(player, obsticles):
     if obsticles:
         for obsticle in obsticles:
@@ -118,18 +104,6 @@ def collisions(player, obsticles):
                 return False
 
     return True
-
-
-def player_animation():
-    global player_surf, player_index
-
-    if player_rect.bottom < 300:
-        player_surf = player_jump
-    else:
-        player_index += 0.1
-        if player_index >= len(player_walk):
-            player_index = 0
-        player_surf = player_walk[int(player_index)]
 
 
 pygame.init()
@@ -143,30 +117,6 @@ score = 0
 
 sky_surf = pygame.image.load("graphics/Sky.png").convert()
 groung_surf = pygame.image.load("graphics/ground.png").convert()
-
-snail_frame_1 = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
-snail_frame_2 = pygame.image.load("graphics/snail/snail2.png").convert_alpha()
-snail_frames = [snail_frame_1, snail_frame_2]
-snail_index = 0
-snail_surf = snail_frames[snail_index]
-
-fly_frame_1 = pygame.image.load("graphics/Fly/Fly1.png").convert_alpha()
-fly_frame_2 = pygame.image.load("graphics/Fly/Fly2.png").convert_alpha()
-fly_frames = [fly_frame_1, fly_frame_2]
-fly_index = 0
-fly_surf = fly_frames[fly_index]
-
-obsticle_rect_list = []
-
-player_walk_1 = pygame.image.load("graphics/Player/player_walk_1.png").convert_alpha()
-player_walk_2 = pygame.image.load("graphics/Player/player_walk_2.png").convert_alpha()
-player_walk = [player_walk_1, player_walk_2]
-player_index = 0
-player_jump = pygame.image.load("graphics/Player/jump.png").convert_alpha()
-
-player_surf = player_walk[player_index]
-player_rect = player_surf.get_rect(midbottom=(150, 300))
-player_gravity = 0
 
 player = pygame.sprite.GroupSingle()
 player.add(Player())
@@ -185,52 +135,22 @@ player_stand_rect = player_stand_surf.get_rect(center=(400, 200))
 obsticle_timer = pygame.USEREVENT + 1
 pygame.time.set_timer(obsticle_timer, 1800)
 
-snail_animation_timer = pygame.USEREVENT + 2
-pygame.time.set_timer(snail_animation_timer, 500)
-
-fly_animation_timer = pygame.USEREVENT + 3
-pygame.time.set_timer(fly_animation_timer, 200)
-
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
 
-        if game_active:
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if player_rect.collidepoint(event.pos) and player_rect.bottom == 300:
-                    player_gravity = -20
+        if game_active and event.type == obsticle_timer:
+            obsticle_group.add(Obsticle(choice(["Snail", "Snail", "Fly"])))
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE and player_rect.bottom == 300:
-                    player_gravity = -20
-
-            if event.type == obsticle_timer:
-                obsticle_group.add(Obsticle(choice(["Snail", "Snail", "Fly"])))
-                if randint(0, 2):
-                    obsticle_rect_list.append(
-                        snail_surf.get_rect(bottomleft=(randint(900, 1100), 300))
-                    )
-                else:
-                    obsticle_rect_list.append(
-                        fly_surf.get_rect(bottomleft=(randint(900, 1100), 210))
-                    )
-
-            if event.type == snail_animation_timer:
-                snail_index = 0 if snail_index == 1 else 1
-                snail_surf = snail_frames[snail_index]
-
-            if event.type == fly_animation_timer:
-                fly_index = 0 if fly_index == 1 else 1
-                fly_surf = fly_frames[fly_index]
-
-        else:
-            if event.type == pygame.MOUSEBUTTONDOWN or (
-                event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE
-            ):
-                game_active = True
-                start_time = pygame.time.get_ticks()
+        if (
+            not game_active
+            and event.type == pygame.KEYDOWN
+            and event.key == pygame.K_SPACE
+        ):
+            game_active = True
+            start_time = pygame.time.get_ticks()
 
     if game_active:
         screen.blit(sky_surf, (0, 0))
@@ -238,22 +158,11 @@ while True:
 
         score = display_score()
 
-        player_gravity += 1
-        player_rect.bottom += player_gravity
-        if player_rect.bottom > 300:
-            player_rect.bottom = 300
-        player_animation()
-        screen.blit(player_surf, player_rect)
-
         player.update()
         player.draw(screen)
 
-        obsticle_group.draw(screen)
         obsticle_group.update()
-
-        obsticle_rect_list = obsticle_movement(obsticle_rect_list)
-
-        game_active = collisions(player_rect, obsticle_rect_list)
+        obsticle_group.draw(screen)
     else:
         instructions_surf = font.render(
             (
@@ -265,9 +174,7 @@ while True:
             "Black",
         )
         instructions_rect = instructions_surf.get_rect(midbottom=(400, 350))
-        obsticle_rect_list.clear()
-        player_rect.midbottom = (150, 300)
-        player_gravity = 0
+
         score = 0
 
         screen.fill((94, 129, 162))
