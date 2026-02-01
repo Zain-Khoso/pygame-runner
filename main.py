@@ -58,9 +58,17 @@ score = 0
 sky_surf = pygame.image.load("graphics/Sky.png").convert()
 groung_surf = pygame.image.load("graphics/ground.png").convert()
 
-snail_surf = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
+snail_frame_1 = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
+snail_frame_2 = pygame.image.load("graphics/snail/snail2.png").convert_alpha()
+snail_frames = [snail_frame_1, snail_frame_2]
+snail_index = 0
+snail_surf = snail_frames[snail_index]
 
-fly_surf = pygame.image.load("graphics/Fly/Fly1.png").convert_alpha()
+fly_frame_1 = pygame.image.load("graphics/Fly/Fly1.png").convert_alpha()
+fly_frame_2 = pygame.image.load("graphics/Fly/Fly2.png").convert_alpha()
+fly_frames = [fly_frame_1, fly_frame_2]
+fly_index = 0
+fly_surf = fly_frames[fly_index]
 
 obsticle_rect_list = []
 
@@ -86,6 +94,12 @@ player_stand_rect = player_stand_surf.get_rect(center=(400, 200))
 obsticle_timer = pygame.USEREVENT + 1
 pygame.time.set_timer(obsticle_timer, 1800)
 
+snail_animation_timer = pygame.USEREVENT + 2
+pygame.time.set_timer(snail_animation_timer, 500)
+
+fly_animation_timer = pygame.USEREVENT + 3
+pygame.time.set_timer(fly_animation_timer, 200)
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -110,6 +124,14 @@ while True:
                     obsticle_rect_list.append(
                         fly_surf.get_rect(bottomleft=(randint(900, 1100), 210))
                     )
+            if event.type == snail_animation_timer:
+                snail_index = 0 if snail_index == 1 else 1
+                snail_surf = snail_frames[snail_index]
+
+            if event.type == fly_animation_timer:
+                fly_index = 0 if fly_index == 1 else 1
+                fly_surf = fly_frames[fly_index]
+
         else:
             if event.type == pygame.MOUSEBUTTONDOWN or (
                 event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE
