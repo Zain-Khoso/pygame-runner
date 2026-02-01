@@ -26,6 +26,14 @@ while True:
             pygame.quit()
             exit()
 
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if player_rect.collidepoint(event.pos):
+                player_gravity = -20
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                player_gravity = -20
+
     screen.blit(sky_surf, (0, 0))
     screen.blit(groung_surf, (0, 300))
 
