@@ -29,11 +29,11 @@ while True:
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if player_rect.collidepoint(event.pos) and player_rect.bottom == 300:
-                player_gravity = -15
+                player_gravity = -20
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE and player_rect.bottom == 300:
-                player_gravity = -15
+                player_gravity = -20
 
     if game_active:
         screen.blit(sky_surf, (0, 0))
@@ -41,7 +41,7 @@ while True:
 
         screen.blit(score_surf, score_rect)
 
-        snail_rect.x -= 4
+        snail_rect.x -= 6
         if snail_rect.right <= 0:
             snail_rect.left = 800
 
