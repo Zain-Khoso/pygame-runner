@@ -3,7 +3,7 @@ import pygame
 
 
 def display_score():
-    current_time = pygame.time.get_ticks()
+    current_time = pygame.time.get_ticks() - start_time
     score_surf = font.render(f"Score: {int(current_time / 1000)}", False, "Black")
     score_rect = score_surf.get_rect(topright=(790, 10))
     screen.blit(score_surf, score_rect)
@@ -15,6 +15,7 @@ screen = pygame.display.set_mode((800, 400))
 clock = pygame.time.Clock()
 font = pygame.font.Font("font/Pixeltype.ttf", 50)
 game_active = True
+start_time = 0
 
 sky_surf = pygame.image.load("graphics/Sky.png").convert()
 groung_surf = pygame.image.load("graphics/ground.png").convert()
@@ -45,6 +46,7 @@ while True:
                 event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE
             ):
                 game_active = True
+                start_time = pygame.time.get_ticks()
 
     if game_active:
         screen.blit(sky_surf, (0, 0))
