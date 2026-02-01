@@ -16,9 +16,12 @@ def obsticle_movement(obsticle_list):
         for obsticle_rect in obsticle_list:
             obsticle_rect.x -= 5
 
-            screen.blit(snail_surf, obsticle_rect)
+            screen.blit(
+                snail_surf if obsticle_rect.bottom == 300 else fly_surf, obsticle_rect
+            )
 
         obsticle_list = [obsticle for obsticle in obsticle_list if obsticle.x > -100]
+
     return obsticle_list
 
 
@@ -35,6 +38,8 @@ sky_surf = pygame.image.load("graphics/Sky.png").convert()
 groung_surf = pygame.image.load("graphics/ground.png").convert()
 
 snail_surf = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
+
+fly_surf = pygame.image.load("graphics/Fly/Fly1.png").convert_alpha()
 
 obsticle_rect_list = []
 
@@ -70,9 +75,14 @@ while True:
                     player_gravity = -20
 
             if event.type == obsticle_timer:
-                obsticle_rect_list.append(
-                    snail_surf.get_rect(bottomleft=(randint(900, 1100), 300))
-                )
+                if randint(0, 2):
+                    obsticle_rect_list.append(
+                        snail_surf.get_rect(bottomleft=(randint(900, 1100), 300))
+                    )
+                else:
+                    obsticle_rect_list.append(
+                        fly_surf.get_rect(bottomleft=(randint(900, 1100), 210))
+                    )
         else:
             if event.type == pygame.MOUSEBUTTONDOWN or (
                 event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE
