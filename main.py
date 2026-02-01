@@ -15,7 +15,7 @@ snail_surface = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
 snail_x_pos = 800
 
 player_suface = pygame.image.load("graphics/Player/player_walk_1.png").convert_alpha()
-player_rect = player_suface.get_rect(bottomleft=(50, 300))
+player_rect = player_suface.get_rect(midbottom=(50, 300))
 
 while True:
     for event in pygame.event.get():
