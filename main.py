@@ -7,6 +7,7 @@ def display_score():
     score_surf = font.render(f"Score: {int(current_time / 1000)}", False, "Black")
     score_rect = score_surf.get_rect(topright=(790, 10))
     screen.blit(score_surf, score_rect)
+    return current_time
 
 
 pygame.init()
@@ -16,6 +17,7 @@ clock = pygame.time.Clock()
 font = pygame.font.Font("font/Pixeltype.ttf", 50)
 game_active = False
 start_time = 0
+score = 0
 
 sky_surf = pygame.image.load("graphics/Sky.png").convert()
 groung_surf = pygame.image.load("graphics/ground.png").convert()
@@ -35,11 +37,6 @@ player_stand_surf = pygame.image.load(
 ).convert_alpha()
 player_stand_surf = pygame.transform.scale2x(player_stand_surf)
 player_stand_rect = player_stand_surf.get_rect(center=(400, 200))
-
-instructions_surf = font.render(
-    "Press 'SPACE' to start. Your score is 0.", False, "Black"
-)
-instructions_rect = instructions_surf.get_rect(midbottom=(400, 350))
 
 
 while True:
@@ -67,7 +64,7 @@ while True:
         screen.blit(sky_surf, (0, 0))
         screen.blit(groung_surf, (0, 300))
 
-        display_score()
+        score = display_score()
 
         snail_rect.x -= 6
         if snail_rect.right <= 0:
@@ -85,6 +82,17 @@ while True:
             game_active = False
             snail_rect.left = 800
     else:
+        instructions_surf = font.render(
+            (
+                "Press 'SPACE' to start."
+                if score == 0
+                else f"Your score: {int(score/1000)}"
+            ),
+            False,
+            "Black",
+        )
+        instructions_rect = instructions_surf.get_rect(midbottom=(400, 350))
+
         screen.fill((94, 129, 162))
         screen.blit(title_surf, title_rect)
         screen.blit(player_stand_surf, player_stand_rect)
