@@ -47,6 +47,8 @@ while True:
 
     player_gravity += 1
     player_rect.bottom += player_gravity
+    if player_rect.bottom > 300:
+        player_rect.bottom = 300
     screen.blit(player_surf, player_rect)
 
     pygame.display.update()
