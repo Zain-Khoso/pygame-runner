@@ -1,6 +1,14 @@
 from sys import exit
 import pygame
 
+
+def display_score():
+    current_time = pygame.time.get_ticks()
+    score_surf = font.render(f"Score: {int(current_time / 1000)}", False, "Black")
+    score_rect = score_surf.get_rect(topright=(790, 10))
+    screen.blit(score_surf, score_rect)
+
+
 pygame.init()
 pygame.display.set_caption("Runner")
 screen = pygame.display.set_mode((800, 400))
@@ -10,9 +18,6 @@ game_active = True
 
 sky_surf = pygame.image.load("graphics/Sky.png").convert()
 groung_surf = pygame.image.load("graphics/ground.png").convert()
-
-score_surf = font.render("Score: 0", False, "Black")
-score_rect = score_surf.get_rect(topright=(790, 10))
 
 snail_surf = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
 snail_rect = snail_surf.get_rect(bottomleft=(800, 300))
@@ -45,7 +50,7 @@ while True:
         screen.blit(sky_surf, (0, 0))
         screen.blit(groung_surf, (0, 300))
 
-        screen.blit(score_surf, score_rect)
+        display_score()
 
         snail_rect.x -= 6
         if snail_rect.right <= 0:
