@@ -97,13 +97,13 @@ def display_score():
     return current_time
 
 
-def collisions(player, obsticles):
-    if obsticles:
-        for obsticle in obsticles:
-            if player.colliderect(obsticle):
-                return False
+def collisions():
+    if pygame.sprite.spritecollide(player.sprite, obsticle_group, False):
+        obsticle_group.empty()
 
-    return True
+        return False
+    else:
+        return True
 
 
 pygame.init()
@@ -163,6 +163,8 @@ while True:
 
         obsticle_group.update()
         obsticle_group.draw(screen)
+
+        game_active = collisions()
     else:
         instructions_surf = font.render(
             (
@@ -174,8 +176,6 @@ while True:
             "Black",
         )
         instructions_rect = instructions_surf.get_rect(midbottom=(400, 350))
-
-        score = 0
 
         screen.fill((94, 129, 162))
         screen.blit(title_surf, title_rect)
