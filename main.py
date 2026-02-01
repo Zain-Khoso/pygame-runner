@@ -14,7 +14,7 @@ pygame.display.set_caption("Runner")
 screen = pygame.display.set_mode((800, 400))
 clock = pygame.time.Clock()
 font = pygame.font.Font("font/Pixeltype.ttf", 50)
-game_active = True
+game_active = False
 start_time = 0
 
 sky_surf = pygame.image.load("graphics/Sky.png").convert()
@@ -26,6 +26,21 @@ snail_rect = snail_surf.get_rect(bottomleft=(800, 300))
 player_surf = pygame.image.load("graphics/Player/player_walk_1.png").convert_alpha()
 player_rect = player_surf.get_rect(midbottom=(50, 300))
 player_gravity = 0
+
+title_surf = font.render("Pygame Runner", False, "Black")
+title_rect = title_surf.get_rect(midtop=(400, 50))
+
+player_stand_surf = pygame.image.load(
+    "graphics/Player/player_stand.png"
+).convert_alpha()
+player_stand_surf = pygame.transform.scale2x(player_stand_surf)
+player_stand_rect = player_stand_surf.get_rect(center=(400, 200))
+
+instructions_surf = font.render(
+    "Press 'SPACE' to start. Your score is 0.", False, "Black"
+)
+instructions_rect = instructions_surf.get_rect(midbottom=(400, 350))
+
 
 while True:
     for event in pygame.event.get():
@@ -70,7 +85,10 @@ while True:
             game_active = False
             snail_rect.left = 800
     else:
-        screen.fill("Red")
+        screen.fill((94, 129, 162))
+        screen.blit(title_surf, title_rect)
+        screen.blit(player_stand_surf, player_stand_rect)
+        screen.blit(instructions_surf, instructions_rect)
 
     pygame.display.update()
     clock.tick(60)
