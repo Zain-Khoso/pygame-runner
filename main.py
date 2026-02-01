@@ -25,6 +25,15 @@ def obsticle_movement(obsticle_list):
     return obsticle_list
 
 
+def collisions(player, obsticles):
+    if obsticles:
+        for obsticle in obsticles:
+            if player.colliderect(obsticle):
+                return False
+
+    return True
+
+
 pygame.init()
 pygame.display.set_caption("Runner")
 screen = pygame.display.set_mode((800, 400))
@@ -103,6 +112,8 @@ while True:
         screen.blit(player_surf, player_rect)
 
         obsticle_rect_list = obsticle_movement(obsticle_rect_list)
+
+        game_active = collisions(player_rect, obsticle_rect_list)
     else:
         instructions_surf = font.render(
             (
@@ -114,6 +125,8 @@ while True:
             "Black",
         )
         instructions_rect = instructions_surf.get_rect(midbottom=(400, 350))
+        obsticle_rect_list = []
+        player_rect.bottom = 300
 
         screen.fill((94, 129, 162))
         screen.blit(title_surf, title_rect)
