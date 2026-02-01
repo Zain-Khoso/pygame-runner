@@ -3,6 +3,51 @@ from random import randint
 import pygame
 
 
+class Player(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+
+        self.gravity = 0
+        self.frame = 0
+
+        frame_1 = pygame.image.load("graphics/Player/player_walk_1.png").convert_alpha()
+        frame_2 = pygame.image.load("graphics/Player/player_walk_2.png").convert_alpha()
+        self.jump_frame = pygame.image.load("graphics/Player/jump.png").convert_alpha()
+
+        self.frames = [frame_1, frame_2]
+        self.surf = self.frames[self.frame]
+        self.rect = self.surf.get_rect(midbottom=(200, 300))
+
+    def player_input(self):
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_SPACE] and self.rect.bottom == 300:
+            self.gravity = -20
+
+    def apply_gravity(self):
+        self.gravity += 1
+        self.rect.y += self.gravity
+
+        if self.rect.bottom >= 300:
+            self.rect.bottom = 300
+
+    def animate(self):
+        if self.rect.bottom < 300:
+            self.image = self.jump_frame
+        else:
+            self.frame += 0.1
+
+            if self.frame >= len(self.frames):
+                self.frame = 0
+
+            self.image = self.frames[int(self.frame)]
+
+    def update(self):
+        self.player_input()
+        self.apply_gravity()
+        self.animate()
+
+
 def display_score():
     current_time = pygame.time.get_ticks() - start_time
     score_surf = font.render(f"Score: {int(current_time / 1000)}", False, "Black")
@@ -82,6 +127,9 @@ player_surf = player_walk[player_index]
 player_rect = player_surf.get_rect(midbottom=(150, 300))
 player_gravity = 0
 
+player = pygame.sprite.GroupSingle()
+player.add(Player())
+
 title_surf = font.render("Pygame Runner", False, "Black")
 title_rect = title_surf.get_rect(midtop=(400, 50))
 
@@ -151,6 +199,9 @@ while True:
             player_rect.bottom = 300
         player_animation()
         screen.blit(player_surf, player_rect)
+
+        player.update()
+        player.draw(screen)
 
         obsticle_rect_list = obsticle_movement(obsticle_rect_list)
 
