@@ -125,8 +125,10 @@ while True:
             "Black",
         )
         instructions_rect = instructions_surf.get_rect(midbottom=(400, 350))
-        obsticle_rect_list = []
-        player_rect.bottom = 300
+        obsticle_rect_list.clear()
+        player_rect.midbottom = (150, 300)
+        player_gravity = 0
+        score = 0
 
         screen.fill((94, 129, 162))
         screen.blit(title_surf, title_rect)
