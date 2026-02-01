@@ -18,6 +18,7 @@ snail_rect = snail_surf.get_rect(bottomleft=(800, 300))
 
 player_surf = pygame.image.load("graphics/Player/player_walk_1.png").convert_alpha()
 player_rect = player_surf.get_rect(midbottom=(50, 300))
+player_gravity = 0
 
 while True:
     for event in pygame.event.get():
@@ -35,9 +36,10 @@ while True:
         snail_rect.left = 800
 
     screen.blit(snail_surf, snail_rect)
-    screen.blit(player_surf, player_rect)
 
-    player_rect.colliderect(snail_rect)
+    player_gravity += 1
+    player_rect.bottom += player_gravity
+    screen.blit(player_surf, player_rect)
 
     pygame.display.update()
     clock.tick(60)
