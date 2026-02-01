@@ -35,7 +35,6 @@ sky_surf = pygame.image.load("graphics/Sky.png").convert()
 groung_surf = pygame.image.load("graphics/ground.png").convert()
 
 snail_surf = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
-snail_rect = snail_surf.get_rect(bottomleft=(800, 300))
 
 obsticle_rect_list = []
 
@@ -87,8 +86,6 @@ while True:
 
         score = display_score()
 
-        screen.blit(snail_surf, snail_rect)
-
         player_gravity += 1
         player_rect.bottom += player_gravity
         if player_rect.bottom > 300:
@@ -96,10 +93,6 @@ while True:
         screen.blit(player_surf, player_rect)
 
         obsticle_rect_list = obsticle_movement(obsticle_rect_list)
-
-        if player_rect.colliderect(snail_rect):
-            game_active = False
-            snail_rect.left = 800
     else:
         instructions_surf = font.render(
             (
