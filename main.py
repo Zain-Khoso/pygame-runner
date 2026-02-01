@@ -16,7 +16,7 @@ class Player(pygame.sprite.Sprite):
 
         self.frames = [frame_1, frame_2]
         self.image = self.frames[self.frame]
-        self.rect = self.image.get_rect(midbottom=(200, 300))
+        self.rect = self.image.get_rect(midbottom=(80, 300))
 
     def player_input(self):
         keys = pygame.key.get_pressed()
