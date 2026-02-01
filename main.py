@@ -1,5 +1,5 @@
 from sys import exit
-from random import randint
+from random import randint, choice
 import pygame
 
 
@@ -46,6 +46,47 @@ class Player(pygame.sprite.Sprite):
         self.player_input()
         self.apply_gravity()
         self.animate()
+
+
+class Obsticle(pygame.sprite.Sprite):
+    def __init__(self, type):
+        super().__init__()
+
+        if type == "Snail":
+            self.frames = [
+                pygame.image.load("graphics/snail/snail1.png").convert_alpha(),
+                pygame.image.load("graphics/snail/snail2.png").convert_alpha(),
+            ]
+
+        if type == "Fly":
+            self.frames = [
+                pygame.image.load("graphics/Fly/Fly1.png").convert_alpha(),
+                pygame.image.load("graphics/Fly/Fly2.png").convert_alpha(),
+            ]
+
+        y_pos = 210 if type == "Fly" else 300
+
+        self.frame = 0
+        self.surf = self.frames[self.frame]
+        self.rect = self.surf.get_rect(midbottom=(randint(900, 1100), y_pos))
+
+    def animate(self):
+        self.frame += 0.1
+
+        if self.frame >= len(self.frames):
+            self.frame = 0
+
+        self.surf = self.frames[int(self.frame)]
+
+    def destroy(self):
+        if self.rect.x < -100:
+            self.kill()
+
+    def update(self):
+        self.rect.x -= 5
+
+        self.animate()
+        self.destroy()
 
 
 def display_score():
@@ -130,6 +171,8 @@ player_gravity = 0
 player = pygame.sprite.GroupSingle()
 player.add(Player())
 
+obsticle_group = pygame.sprite.Group()
+
 title_surf = font.render("Pygame Runner", False, "Black")
 title_rect = title_surf.get_rect(midtop=(400, 50))
 
@@ -164,6 +207,7 @@ while True:
                     player_gravity = -20
 
             if event.type == obsticle_timer:
+                obsticle_group.add(Obsticle(choice(["Snail", "Snail", "Fly"])))
                 if randint(0, 2):
                     obsticle_rect_list.append(
                         snail_surf.get_rect(bottomleft=(randint(900, 1100), 300))
@@ -172,6 +216,7 @@ while True:
                     obsticle_rect_list.append(
                         fly_surf.get_rect(bottomleft=(randint(900, 1100), 210))
                     )
+
             if event.type == snail_animation_timer:
                 snail_index = 0 if snail_index == 1 else 1
                 snail_surf = snail_frames[snail_index]
@@ -202,6 +247,9 @@ while True:
 
         player.update()
         player.draw(screen)
+
+        obsticle_group.draw(screen)
+        obsticle_group.update()
 
         obsticle_rect_list = obsticle_movement(obsticle_rect_list)
 
