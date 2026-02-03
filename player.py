@@ -1,4 +1,4 @@
-# Lib Imports.
+# Imports.
 import pygame
 
 # Player object definition.
