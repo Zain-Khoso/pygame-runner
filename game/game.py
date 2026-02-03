@@ -19,12 +19,12 @@ class Game:
         self.sky = pygame.image.load(sky_path).convert()
         self.ground = pygame.image.load(ground_path).convert()
         avatar = pygame.image.load(avatar_path).convert_alpha()
-        self.font = pygame.font.Font(font_path, font_size)
+        self.font = pygame.font.Font(font_path, menu_text_size)
         self.music = pygame.mixer.Sound(music_path)
         self.music.set_volume(music_volume)
 
         # Surfaces and rectangles.
-        self.title_surf = self.font.render(title_text, False, font_color_menu)
+        self.title_surf = self.font.render(title_text, False, menu_text_color)
         self.title_rect = self.title_surf.get_rect(midtop=(400, 50))
         self.avatar_surf = pygame.transform.scale2x(avatar)
         self.avatar_rect = self.avatar_surf.get_rect(midbottom=(400, 300))
@@ -74,11 +74,11 @@ class Game:
         subtitle_surf = self.font.render(
             subtitle_1 if self.score.get() == 0 else subtitle_2 % (self.score.get()),
             False,
-            font_color_menu,
+            menu_text_color,
         )
         subtitle_rect = subtitle_surf.get_rect(midbottom=(400, 350))
 
-        self.screen.fill((94, 129, 162))
+        self.screen.fill(menu_color)
         self.screen.blit(self.title_surf, self.title_rect)
         self.screen.blit(self.avatar_surf, self.avatar_rect)
         self.screen.blit(subtitle_surf, subtitle_rect)

@@ -7,7 +7,7 @@ from game.settings import *
 class Score:
     def __init__(self):
         # Assets.
-        self.font = pygame.font.Font(font_path, font_size)
+        self.font = pygame.font.Font(font_path, score_text_size)
 
         # Stats.
         self.score = 0

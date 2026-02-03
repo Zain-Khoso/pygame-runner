@@ -18,11 +18,10 @@ player_walk_2_path = "assets/player/walk_2.png"
 player_jump_path = "assets/player/jump.png"
 player_jump_sound_path = "assets/player/jump.mp3"
 
-# Typography
-font_size = 50
-font_color_menu = "Black"
-
 # Game
+menu_color = (94, 129, 162)
+menu_text_size = 50
+menu_text_color = (111, 196, 169)
 title_text = "Runner"
 subtitle_1 = "Press 'SPACE' to start."
 subtitle_2 = "Your score: %s"
@@ -43,6 +42,7 @@ player_jump_power = 20
 
 # Score
 score_text = "Score: %s"
-score_text_color = "Black"
+score_text_color = (64, 64, 64)
+score_text_size = 50
 score_text_top = 10
 score_text_right = 790
