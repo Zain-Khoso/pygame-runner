@@ -27,7 +27,7 @@ class Game:
         self.title_surf = self.font.render(title_text, False, menu_text_color)
         self.title_rect = self.title_surf.get_rect(midtop=(400, 50))
         self.avatar_surf = pygame.transform.scale2x(avatar)
-        self.avatar_rect = self.avatar_surf.get_rect(midbottom=(400, 300))
+        self.avatar_rect = self.avatar_surf.get_rect(center=(400, 200))
 
         # Local objects.
         self.player = pygame.sprite.GroupSingle()
