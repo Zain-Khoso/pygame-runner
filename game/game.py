@@ -106,16 +106,20 @@ class Game:
                 pygame.quit()
                 sys.exit()
 
-            if self.game_active and (event.type == self.obsticle_timer):
-                self.load_obsticle()
-
-            if (
-                not self.game_active
-                and event.type == pygame.KEYDOWN
-                and event.key == pygame.K_SPACE
-            ):
-                self.score.reset()
-                self.game_active = True
+            if self.game_active:
+                if event.type == self.obsticle_timer:
+                    self.load_obsticle()
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    self.game_active = False
+            else:
+                if event.type == pygame.KEYDOWN:
+                    match event.key:
+                        case pygame.K_SPACE:
+                            self.score.reset()
+                            self.game_active = True
+                        case pygame.K_ESCAPE:
+                            pygame.quit()
+                            sys.exit()
 
     def run(self):
         self.load_player()
