@@ -1,7 +1,7 @@
 # Imports.
 import sys, random, pygame
-from player import Player
-from obsticle import Obsticle
+from code.player import Player
+from code.obsticle import Obsticle
 
 
 # Game object - Holds the root game logic.
