@@ -34,12 +34,9 @@ class Obsticle(pygame.sprite.Sprite):
 
         self.image = self.frames[int(self.frame)]
 
-    def destroy(self):
-        if self.rect.x < -100:
-            self.kill()
-
     def update(self):
         self.rect.x -= 5
 
+        self.kill() if self.rect.x < -100 else None
+
         self.animate()
-        self.destroy()
