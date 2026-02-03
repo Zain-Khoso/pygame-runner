@@ -10,14 +10,14 @@ class Obsticle(pygame.sprite.Sprite):
 
         if type == "Snail":
             self.frames = [
-                pygame.image.load("graphics/snail/snail1.png").convert_alpha(),
-                pygame.image.load("graphics/snail/snail2.png").convert_alpha(),
+                pygame.image.load("assets/snail/1.png").convert_alpha(),
+                pygame.image.load("assets/snail/2.png").convert_alpha(),
             ]
 
         if type == "Fly":
             self.frames = [
-                pygame.image.load("graphics/Fly/Fly1.png").convert_alpha(),
-                pygame.image.load("graphics/Fly/Fly2.png").convert_alpha(),
+                pygame.image.load("assets/fly/1.png").convert_alpha(),
+                pygame.image.load("assets/fly/2.png").convert_alpha(),
             ]
 
         y_pos = 210 if type == "Fly" else 300
@@ -43,4 +43,3 @@ class Obsticle(pygame.sprite.Sprite):
 
         self.animate()
         self.destroy()
-

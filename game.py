@@ -14,11 +14,11 @@ class Game:
         self.screen = pygame.display.set_mode((800, 400))
 
         # Loading assets.
-        self.sky = pygame.image.load("graphics/Sky.png").convert()
-        self.ground = pygame.image.load("graphics/ground.png").convert()
-        avatar = pygame.image.load("graphics/Player/player_stand.png").convert_alpha()
-        self.font = pygame.font.Font("font/Pixeltype.ttf", 50)
-        self.music = pygame.mixer.Sound("audio/music.wav")
+        self.sky = pygame.image.load("assets/sky.png").convert()
+        self.ground = pygame.image.load("assets/ground.png").convert()
+        avatar = pygame.image.load("assets/player/stand.png").convert_alpha()
+        self.font = pygame.font.Font("assets/font.ttf", 50)
+        self.music = pygame.mixer.Sound("assets/music.wav")
 
         # Surfaces and rectangles.
         self.title_surf = self.font.render("Pygame Runner", False, "Black")

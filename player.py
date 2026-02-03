@@ -1,6 +1,7 @@
 # Imports.
 import pygame
 
+
 # Player object definition.
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -9,10 +10,10 @@ class Player(pygame.sprite.Sprite):
         self.gravity = 0
         self.frame = 0
 
-        frame_1 = pygame.image.load("graphics/Player/player_walk_1.png").convert_alpha()
-        frame_2 = pygame.image.load("graphics/Player/player_walk_2.png").convert_alpha()
-        self.jump_frame = pygame.image.load("graphics/Player/jump.png").convert_alpha()
-        self.jump_sound = pygame.mixer.Sound("audio/jump.mp3")
+        frame_1 = pygame.image.load("assets/player/walk_1.png").convert_alpha()
+        frame_2 = pygame.image.load("assets/player/walk_2.png").convert_alpha()
+        self.jump_frame = pygame.image.load("assets/player/jump.png").convert_alpha()
+        self.jump_sound = pygame.mixer.Sound("assets/player/jump.mp3")
         self.jump_sound.set_volume(0.5)
 
         self.frames = [frame_1, frame_2]
@@ -48,4 +49,3 @@ class Player(pygame.sprite.Sprite):
         self.player_input()
         self.apply_gravity()
         self.animate()
-
