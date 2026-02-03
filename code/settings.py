@@ -28,6 +28,7 @@ title_text = "Runner"
 subtitle_1 = "Press 'SPACE' to start."
 subtitle_2 = "Your score: %s"
 score_text = "Score: %s"
+music_volume = 0.1
 fps = 60
 
 # Obsticle

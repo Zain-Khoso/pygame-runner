@@ -20,6 +20,7 @@ class Game:
         avatar = pygame.image.load(avatar_path).convert_alpha()
         self.font = pygame.font.Font(font_path, font_size)
         self.music = pygame.mixer.Sound(music_path)
+        self.music.set_volume(music_volume)
 
         # Surfaces and rectangles.
         self.title_surf = self.font.render(title_text, False, font_color_menu)
@@ -42,7 +43,11 @@ class Game:
         pygame.time.set_timer(self.obsticle_timer, obsticle_interval)
 
     def play_music(self):
-        self.music.play(loops=-1)
+        if self.music.get_num_channels() == 0:
+            self.music.play(loops=-1)
+
+    def stop_music(self):
+        self.music.stop()
 
     def load_player(self):
         self.player.add(Player())
@@ -88,6 +93,8 @@ class Game:
         self.screen.blit(self.avatar_surf, self.avatar_rect)
         self.screen.blit(subtitle_surf, subtitle_rect)
 
+        self.stop_music()
+
     def show_game(self):
         self.screen.blit(self.sky, (0, 0))
         self.screen.blit(self.ground, (0, 300))
@@ -100,6 +107,8 @@ class Game:
 
         self.display_score()
         self.handle_collisions()
+
+        self.play_music()
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -119,6 +128,8 @@ class Game:
                 self.start_time = pygame.time.get_ticks()
 
     def run(self):
+        self.load_player()
+
         while True:
             self.handle_events()
 
