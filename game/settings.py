@@ -21,13 +21,11 @@ player_jump_sound_path = "assets/player/jump.mp3"
 # Typography
 font_size = 50
 font_color_menu = "Black"
-font_color_game = "Black"
 
 # Game
 title_text = "Runner"
 subtitle_1 = "Press 'SPACE' to start."
 subtitle_2 = "Your score: %s"
-score_text = "Score: %s"
 music_volume = 0.1
 fps = 60
 
@@ -42,3 +40,9 @@ obsticle_speed = 5
 # Player
 player_jump_volume = 0.5
 player_jump_power = 20
+
+# Score
+score_text = "Score: %s"
+score_text_color = "Black"
+score_text_top = 10
+score_text_right = 790

@@ -6,7 +6,7 @@ from game.settings import *
 
 # Obsticle object definition.
 class Obsticle(pygame.sprite.Sprite):
-    def __init__(self, type):
+    def __init__(self, type, score):
         super().__init__()
 
         if type == obsticle_type_snail:
@@ -23,6 +23,7 @@ class Obsticle(pygame.sprite.Sprite):
 
         y_pos = 210 if type == obsticle_type_fly else 300
 
+        self.score = score
         self.frame = 0
         self.image = self.frames[self.frame]
         self.rect = self.image.get_rect(
@@ -40,6 +41,8 @@ class Obsticle(pygame.sprite.Sprite):
     def update(self):
         self.rect.x -= obsticle_speed
 
-        self.kill() if self.rect.x < -100 else None
+        if self.rect.x < -100:
+            self.score.increase()
+            self.kill()
 
         self.animate()

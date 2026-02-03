@@ -3,6 +3,7 @@ import sys, random, pygame
 from game.player import Player
 from game.obsticle import Obsticle
 from game.settings import *
+from game.score import Score
 
 
 # Game object - Holds the root game logic.
@@ -28,15 +29,14 @@ class Game:
         self.avatar_surf = pygame.transform.scale2x(avatar)
         self.avatar_rect = self.avatar_surf.get_rect(midbottom=(400, 300))
 
-        # Sprite groups.
+        # Local objects.
         self.player = pygame.sprite.GroupSingle()
         self.obsticles = pygame.sprite.Group()
+        self.score = Score()
 
         # Game stats.
         self.clock = pygame.time.Clock()
         self.game_active = False
-        self.start_time = 0
-        self.score = 0
 
         # Timers.
         self.obsticle_timer = pygame.USEREVENT + 1
@@ -60,17 +60,7 @@ class Game:
             obsticle_type_fly,
         ]
 
-        self.obsticles.add(Obsticle(random.choice(chioces)))
-
-    def display_score(self):
-        current_time = pygame.time.get_ticks() - self.start_time
-        score_surf = self.font.render(
-            score_text % (int(current_time / 1000)), False, font_color_game
-        )
-        score_rect = score_surf.get_rect(topright=(790, 10))
-        self.screen.blit(score_surf, score_rect)
-
-        self.score = current_time
+        self.obsticles.add(Obsticle(random.choice(chioces), self.score))
 
     def handle_collisions(self):
         if pygame.sprite.spritecollide(self.player.sprite, self.obsticles, False):
@@ -82,7 +72,7 @@ class Game:
 
     def show_menu(self):
         subtitle_surf = self.font.render(
-            subtitle_1 if self.score == 0 else subtitle_2 % (int(self.score / 1000)),
+            subtitle_1 if self.score.get() == 0 else subtitle_2 % (self.score.get()),
             False,
             font_color_menu,
         )
@@ -105,7 +95,7 @@ class Game:
         self.obsticles.update()
         self.obsticles.draw(self.screen)
 
-        self.display_score()
+        self.score.render(self.screen)
         self.handle_collisions()
 
         self.play_music()
@@ -124,8 +114,8 @@ class Game:
                 and event.type == pygame.KEYDOWN
                 and event.key == pygame.K_SPACE
             ):
+                self.score.reset()
                 self.game_active = True
-                self.start_time = pygame.time.get_ticks()
 
     def run(self):
         self.load_player()
