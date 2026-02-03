@@ -7,20 +7,22 @@ class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
 
-        self.gravity = 0
-        self.frame = 0
-
-        frame_1 = pygame.image.load("assets/player/walk_1.png").convert_alpha()
-        frame_2 = pygame.image.load("assets/player/walk_2.png").convert_alpha()
+        # Loading assets.
+        self.frames = [
+            pygame.image.load("assets/player/walk_1.png").convert_alpha(),
+            pygame.image.load("assets/player/walk_2.png").convert_alpha(),
+        ]
         self.jump_frame = pygame.image.load("assets/player/jump.png").convert_alpha()
         self.jump_sound = pygame.mixer.Sound("assets/player/jump.mp3")
+
+        # States
         self.jump_sound.set_volume(0.5)
-
-        self.frames = [frame_1, frame_2]
+        self.gravity = 0
+        self.frame = 0
         self.image = self.frames[self.frame]
-        self.rect = self.image.get_rect(midbottom=(80, 300))
+        self.rect = self.image.get_rect(midbottom=(150, 300))
 
-    def player_input(self):
+    def handle_input(self):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_SPACE] and self.rect.bottom == 300:
@@ -46,6 +48,6 @@ class Player(pygame.sprite.Sprite):
             self.image = self.frames[int(self.frame)]
 
     def update(self):
-        self.player_input()
+        self.handle_input()
         self.apply_gravity()
         self.animate()
