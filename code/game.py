@@ -2,6 +2,7 @@
 import sys, random, pygame
 from code.player import Player
 from code.obsticle import Obsticle
+from code.settings import *
 
 
 # Game object - Holds the root game logic.
@@ -10,18 +11,18 @@ class Game:
         pygame.init()
 
         # Display setup.
-        pygame.display.set_caption("Pygame - Runner")
-        self.screen = pygame.display.set_mode((800, 400))
+        pygame.display.set_caption(screen_title)
+        self.screen = pygame.display.set_mode((screen_width, screen_height))
 
         # Loading assets.
-        self.sky = pygame.image.load("assets/sky.png").convert()
-        self.ground = pygame.image.load("assets/ground.png").convert()
-        avatar = pygame.image.load("assets/player/stand.png").convert_alpha()
-        self.font = pygame.font.Font("assets/font.ttf", 50)
-        self.music = pygame.mixer.Sound("assets/music.wav")
+        self.sky = pygame.image.load(sky_path).convert()
+        self.ground = pygame.image.load(ground_path).convert()
+        avatar = pygame.image.load(avatar_path).convert_alpha()
+        self.font = pygame.font.Font(font_path, font_size)
+        self.music = pygame.mixer.Sound(music_path)
 
         # Surfaces and rectangles.
-        self.title_surf = self.font.render("Pygame Runner", False, "Black")
+        self.title_surf = self.font.render(title_text, False, font_color_menu)
         self.title_rect = self.title_surf.get_rect(midtop=(400, 50))
         self.avatar_surf = pygame.transform.scale2x(avatar)
         self.avatar_rect = self.avatar_surf.get_rect(midbottom=(400, 300))
@@ -38,7 +39,7 @@ class Game:
 
         # Timers.
         self.obsticle_timer = pygame.USEREVENT + 1
-        pygame.time.set_timer(self.obsticle_timer, 1800)
+        pygame.time.set_timer(self.obsticle_timer, obsticle_interval)
 
     def play_music(self):
         self.music.play(loops=-1)
@@ -47,14 +48,19 @@ class Game:
         self.player.add(Player())
 
     def load_obsticle(self):
-        chioces = ["Snail", "Snail", "Snail", "Fly"]
+        chioces = [
+            obsticle_type_snail,
+            obsticle_type_snail,
+            obsticle_type_snail,
+            obsticle_type_fly,
+        ]
 
         self.obsticles.add(Obsticle(random.choice(chioces)))
 
     def display_score(self):
         current_time = pygame.time.get_ticks() - self.start_time
         score_surf = self.font.render(
-            f"Score: {int(current_time / 1000)}", False, "Black"
+            score_text % (int(current_time / 1000)), False, font_color_game
         )
         score_rect = score_surf.get_rect(topright=(790, 10))
         self.screen.blit(score_surf, score_rect)
@@ -70,13 +76,10 @@ class Game:
             self.game_active = True
 
     def show_menu(self):
-        subtitle_1 = "Press 'SPACE' to start."
-        subtitle_2 = f"Your score: {int(self.score/1000)}"
-
         subtitle_surf = self.font.render(
-            subtitle_1 if self.score == 0 else subtitle_2,
+            subtitle_1 if self.score == 0 else subtitle_2 % (int(self.score / 1000)),
             False,
-            "Black",
+            font_color_menu,
         )
         subtitle_rect = subtitle_surf.get_rect(midbottom=(400, 350))
 
@@ -122,4 +125,4 @@ class Game:
             self.show_game() if self.game_active else self.show_menu()
 
             pygame.display.update()
-            self.clock.tick(60)
+            self.clock.tick(fps)

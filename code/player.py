@@ -1,5 +1,6 @@
 # Imports.
 import pygame
+from code.settings import *
 
 
 # Player object definition.
@@ -9,14 +10,14 @@ class Player(pygame.sprite.Sprite):
 
         # Loading assets.
         self.frames = [
-            pygame.image.load("assets/player/walk_1.png").convert_alpha(),
-            pygame.image.load("assets/player/walk_2.png").convert_alpha(),
+            pygame.image.load(player_walk_1_path).convert_alpha(),
+            pygame.image.load(player_walk_2_path).convert_alpha(),
         ]
-        self.jump_frame = pygame.image.load("assets/player/jump.png").convert_alpha()
-        self.jump_sound = pygame.mixer.Sound("assets/player/jump.mp3")
+        self.jump_frame = pygame.image.load(player_jump_path).convert_alpha()
+        self.jump_sound = pygame.mixer.Sound(player_jump_sound_path)
 
         # States
-        self.jump_sound.set_volume(0.5)
+        self.jump_sound.set_volume(player_jump_volume)
         self.gravity = 0
         self.frame = 0
         self.image = self.frames[self.frame]
@@ -26,7 +27,7 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_SPACE] and self.rect.bottom == 300:
-            self.gravity = -20
+            self.gravity = -player_jump_power
             self.jump_sound.play()
 
     def apply_gravity(self):
