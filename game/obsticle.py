@@ -1,7 +1,7 @@
 # Imports.
 from random import randint
 import pygame
-from code.settings import *
+from game.settings import *
 
 
 # Obsticle object definition.

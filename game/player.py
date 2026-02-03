@@ -1,6 +1,6 @@
 # Imports.
 import pygame
-from code.settings import *
+from game.settings import *
 
 
 # Player object definition.
