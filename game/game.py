@@ -1,10 +1,11 @@
 # Imports.
-import os, sys, random, pygame
+import sys, random, pygame
 from game.player import Player
 from game.obsticle import Obsticle
 from game.settings import *
 from game.score import Score
 from game.button import Button
+from game.username import Username
 
 
 # Game object - Holds the root game logic.
@@ -35,7 +36,7 @@ class Game:
         self.score = Score()
 
         # Game stats.
-        self.username = self.read_username()
+        self.username = Username()
         self.clock = pygame.time.Clock()
         self.game_active = False
         self.game_pause = False
@@ -64,17 +65,6 @@ class Game:
         ]
 
         self.obsticles.add(Obsticle(random.choice(chioces), self.score))
-
-    def read_username(self):
-        if not os.path.exists(username_file_path):
-            return None
-
-        try:
-            with open(username_file_path, "r") as file:
-                return file.read().strip()
-        except Exception as e:
-            print(f"Error reading file: {e}")
-            return None
 
     def handle_collisions(self):
         if pygame.sprite.spritecollide(self.player.sprite, self.obsticles, False):
@@ -120,6 +110,7 @@ class Game:
         self.screen.blit(self.avatar_surf, avatar_rect)
         self.buttons.draw(self.screen)
         self.score.render(self.screen)
+        self.username.render(self.screen)
 
         self.stop_music()
 
@@ -140,7 +131,7 @@ class Game:
 
     def start_game(self):
         self.obsticles.empty()
-        self.score.reset(self.username)
+        self.score.reset(self.username.get())
         self.game_active = True
         self.game_pause = False
 
@@ -149,7 +140,7 @@ class Game:
         self.game_pause = False
 
     def exit_game(self):
-        self.score.reset(self.username)
+        self.score.reset(self.username.get())
         pygame.quit()
         sys.exit()
 
@@ -174,6 +165,9 @@ class Game:
             else:
                 for button in self.buttons.sprites():
                     button.check_click(event)
+
+                if event.type == pygame.KEYDOWN:
+                    self.username.handle_input(event)
 
     def run(self):
         self.load_player()
