@@ -1,5 +1,5 @@
 # Imports.
-import os, math, pygame
+import os, pygame
 from game.settings import *
 
 
