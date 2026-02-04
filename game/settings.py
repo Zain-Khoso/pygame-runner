@@ -18,13 +18,14 @@ player_walk_2_path = "assets/player/walk_2.png"
 player_jump_path = "assets/player/jump.png"
 player_jump_sound_path = "assets/player/jump.mp3"
 
-# Game
+# Menu
 menu_color = (94, 129, 162)
 menu_text_size = 80
 menu_text_color = (111, 196, 169)
+button_color = (64, 64, 64)
+button_text_size = 36
+button_text_color = (111, 196, 169)
 title_text = "Runner"
-subtitle_1 = "Press 'SPACE' to start"
-subtitle_2 = "Your score: %s"
 music_volume = 0.1
 fps = 60
 
