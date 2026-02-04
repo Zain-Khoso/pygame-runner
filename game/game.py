@@ -95,18 +95,11 @@ class Game:
         title_rect = self.title_surf.get_rect(midleft=master_rect.midleft)
         avatar_rect = self.avatar_surf.get_rect(midright=master_rect.midright)
 
-        # Start button
-        start_surf = self.font.render("Start", False, menu_text_color)
-        # sstart_surf.get_rect(midtop=(screen_width // 2, 100))tart_surf.fill(score_text_color)
-
         # Drawing menu
         self.screen.fill(menu_color)
         self.screen.blit(self.title_surf, title_rect)
         self.screen.blit(self.avatar_surf, avatar_rect)
         self.buttons.draw(self.screen)
-        # self.screen.blit(
-        #     start_surf, start_surf.get_rect(midtop=(screen_width // 2, 100))
-        # )
 
         self.stop_music()
 
