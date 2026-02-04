@@ -39,7 +39,7 @@ obsticle_dis_end = 1100
 obsticle_speed = 5
 
 # Player
-player_jump_volume = 0.5
+player_jump_volume = 0.2
 player_jump_power = 20
 
 # Score
