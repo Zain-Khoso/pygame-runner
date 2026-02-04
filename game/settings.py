@@ -17,6 +17,7 @@ player_walk_1_path = "assets/player/walk_1.png"
 player_walk_2_path = "assets/player/walk_2.png"
 player_jump_path = "assets/player/jump.png"
 player_jump_sound_path = "assets/player/jump.mp3"
+username_file_path = "username.txt"
 
 # Menu
 menu_color = (94, 129, 162)

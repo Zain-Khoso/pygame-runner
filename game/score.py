@@ -15,7 +15,10 @@ class Score:
     def increase(self, by=1):
         self.score += by
 
-    def reset(self):
+    def reset(self, username: str | None):
+        if username and self.score != 0:
+            print(f"Username: {username}")
+            print(f"Score: {self.score}")
         self.score = 0
 
     def get(self):

@@ -1,5 +1,5 @@
 # Imports.
-import sys, random, pygame
+import os, sys, random, pygame
 from game.player import Player
 from game.obsticle import Obsticle
 from game.settings import *
@@ -35,6 +35,7 @@ class Game:
         self.score = Score()
 
         # Game stats.
+        self.username = self.read_username()
         self.clock = pygame.time.Clock()
         self.game_active = False
         self.game_pause = False
@@ -63,6 +64,17 @@ class Game:
         ]
 
         self.obsticles.add(Obsticle(random.choice(chioces), self.score))
+
+    def read_username(self):
+        if not os.path.exists(username_file_path):
+            return None
+
+        try:
+            with open(username_file_path, "r") as file:
+                return file.read().strip()
+        except Exception as e:
+            print(f"Error reading file: {e}")
+            return None
 
     def handle_collisions(self):
         if pygame.sprite.spritecollide(self.player.sprite, self.obsticles, False):
@@ -128,7 +140,7 @@ class Game:
 
     def start_game(self):
         self.obsticles.empty()
-        self.score.reset()
+        self.score.reset(self.username)
         self.game_active = True
         self.game_pause = False
 
@@ -137,6 +149,7 @@ class Game:
         self.game_pause = False
 
     def exit_game(self):
+        self.score.reset(self.username)
         pygame.quit()
         sys.exit()
 
