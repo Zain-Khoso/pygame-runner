@@ -20,9 +20,9 @@ player_jump_sound_path = "assets/player/jump.mp3"
 
 # Game
 menu_color = (94, 129, 162)
-menu_text_size = 50
+menu_text_size = 80
 menu_text_color = (111, 196, 169)
-title_text = "Pygame Runner"
+title_text = "Runner"
 subtitle_1 = "Press 'SPACE' to start"
 subtitle_2 = "Your score: %s"
 music_volume = 0.1
