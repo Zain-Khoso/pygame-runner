@@ -34,7 +34,7 @@ class Game:
         self.score = Score()
 
         # Menu buttons
-        self.start_button = Button("Start", 100, self.start_game)
+        self.start_button = Button("Start", 100, self.continue_game)
         self.restart_button = Button("Restart", 160, self.start_game)
         self.login_button = Button("Login", 220)
         self.signup_button = Button("Sign Up", 280)
@@ -78,7 +78,6 @@ class Game:
 
     def handle_collisions(self):
         if pygame.sprite.spritecollide(self.player.sprite, self.obsticles, False):
-            self.obsticles.empty()
             self.game_active = False
 
         else:
@@ -120,7 +119,11 @@ class Game:
         self.play_music()
 
     def start_game(self):
+        self.obsticles.empty()
         self.score.reset()
+        self.game_active = True
+
+    def continue_game(self):
         self.game_active = True
 
     def exit_game(self):
