@@ -37,6 +37,7 @@ class Game:
         # Game stats.
         self.clock = pygame.time.Clock()
         self.game_active = False
+        self.game_pause = False
 
         # Timers.
         self.obsticle_timer = pygame.USEREVENT + 1
@@ -65,7 +66,7 @@ class Game:
 
     def handle_collisions(self):
         if pygame.sprite.spritecollide(self.player.sprite, self.obsticles, False):
-            self.game_active = False
+            self.quit_game()
 
         else:
             self.game_active = True
@@ -84,11 +85,13 @@ class Game:
         # Buttons
         button_list = []
 
-        if self.score.get() == 0:
-            button_list.append(("Start", self.start_game))
-        else:
-            button_list.append(("Continue", self.continue_game))
+        if self.game_pause:
+            button_list.append(("Resume", self.resume_game))
             button_list.append(("Restart", self.start_game))
+        else:
+            button_list.append(
+                ("Start" if self.score.get() == 0 else "Restart", self.start_game)
+            )
 
         button_list.append(("Login", self.exit_game))
         button_list.append(("Sign Up", self.exit_game))
@@ -129,13 +132,23 @@ class Game:
         self.obsticles.empty()
         self.score.reset()
         self.game_active = True
+        self.game_pause = False
 
-    def continue_game(self):
+    def resume_game(self):
         self.game_active = True
+        self.game_pause = False
 
     def exit_game(self):
         pygame.quit()
         sys.exit()
+
+    def pause_game(self):
+        self.game_active = False
+        self.game_pause = True
+
+    def quit_game(self):
+        self.game_active = False
+        self.game_pause = False
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -146,7 +159,7 @@ class Game:
                 if event.type == self.obsticle_timer:
                     self.load_obsticle()
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    self.game_active = False
+                    self.pause_game()
             else:
                 for button in self.buttons.sprites():
                     button.check_click(event)
