@@ -100,6 +100,7 @@ class Game:
         self.screen.blit(self.title_surf, title_rect)
         self.screen.blit(self.avatar_surf, avatar_rect)
         self.buttons.draw(self.screen)
+        self.score.render(self.screen)
 
         self.stop_music()
 
