@@ -18,7 +18,7 @@ class Score:
     def upload_task(self, data):
         try:
             requests.post(
-                "http://localhost:5000/api/add-score",
+                "https://runner2d.vercel.app/api/add-score",
                 json=data,
                 timeout=10,
             )
