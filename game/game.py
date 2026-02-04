@@ -4,6 +4,7 @@ from game.player import Player
 from game.obsticle import Obsticle
 from game.settings import *
 from game.score import Score
+from game.button import Button
 
 
 # Game object - Holds the root game logic.
@@ -23,16 +24,28 @@ class Game:
         self.music = pygame.mixer.Sound(music_path)
         self.music.set_volume(music_volume)
 
-        # Surfaces and rectangles.
+        # Menu elements.
         self.title_surf = self.font.render(title_text, False, menu_text_color)
-        self.title_rect = self.title_surf.get_rect(midtop=(400, 50))
-        self.avatar_surf = pygame.transform.scale2x(avatar)
-        self.avatar_rect = self.avatar_surf.get_rect(center=(400, 200))
+        self.avatar_surf = pygame.transform.scale_by(avatar, 0.8)
 
         # Local objects.
         self.player = pygame.sprite.GroupSingle()
         self.obsticles = pygame.sprite.Group()
         self.score = Score()
+
+        # Menu buttons
+        self.start_button = Button("Start", 100)
+        self.restart_button = Button("Restart", 160)
+        self.login_button = Button("Login", 220)
+        self.signup_button = Button("Sign Up", 280)
+        self.exit_button = Button("Exit", 340)
+
+        self.buttons = pygame.sprite.Group()
+        self.buttons.add(self.start_button)
+        self.buttons.add(self.restart_button)
+        self.buttons.add(self.login_button)
+        self.buttons.add(self.signup_button)
+        self.buttons.add(self.exit_button)
 
         # Game stats.
         self.clock = pygame.time.Clock()
@@ -72,17 +85,28 @@ class Game:
             self.game_active = True
 
     def show_menu(self):
-        subtitle_surf = self.font.render(
-            subtitle_1 if self.score.get() == 0 else subtitle_2 % (self.score.get()),
-            False,
-            menu_text_color,
-        )
-        subtitle_rect = subtitle_surf.get_rect(midbottom=(400, 350))
+        # Title
+        title_width = self.title_surf.get_width() + 20 + self.avatar_surf.get_width()
+        title_height = max(self.title_surf.get_height(), self.avatar_surf.get_height())
 
+        master_rect = pygame.Rect(0, 0, title_width, title_height)
+        master_rect.center = (screen_width // 2, 50)
+
+        title_rect = self.title_surf.get_rect(midleft=master_rect.midleft)
+        avatar_rect = self.avatar_surf.get_rect(midright=master_rect.midright)
+
+        # Start button
+        start_surf = self.font.render("Start", False, menu_text_color)
+        # sstart_surf.get_rect(midtop=(screen_width // 2, 100))tart_surf.fill(score_text_color)
+
+        # Drawing menu
         self.screen.fill(menu_color)
-        self.screen.blit(self.title_surf, self.title_rect)
-        self.screen.blit(self.avatar_surf, self.avatar_rect)
-        self.screen.blit(subtitle_surf, subtitle_rect)
+        self.screen.blit(self.title_surf, title_rect)
+        self.screen.blit(self.avatar_surf, avatar_rect)
+        self.buttons.draw(self.screen)
+        # self.screen.blit(
+        #     start_surf, start_surf.get_rect(midtop=(screen_width // 2, 100))
+        # )
 
         self.stop_music()
 
@@ -113,6 +137,9 @@ class Game:
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     self.game_active = False
             else:
+                for button in self.buttons.sprites():
+                    button.check_click(event)
+
                 if event.type == pygame.KEYDOWN:
                     match event.key:
                         case pygame.K_SPACE:
