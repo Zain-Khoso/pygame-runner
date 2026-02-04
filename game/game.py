@@ -34,8 +34,8 @@ class Game:
         self.score = Score()
 
         # Menu buttons
-        self.start_button = Button("Start", 100)
-        self.restart_button = Button("Restart", 160)
+        self.start_button = Button("Start", 100, self.start_game)
+        self.restart_button = Button("Restart", 160, self.start_game)
         self.login_button = Button("Login", 220)
         self.signup_button = Button("Sign Up", 280)
         self.exit_button = Button("Exit", 340, self.exit_game)
@@ -118,6 +118,10 @@ class Game:
 
         self.play_music()
 
+    def start_game(self):
+        self.score.reset()
+        self.game_active = True
+
     def exit_game(self):
         pygame.quit()
         sys.exit()
@@ -135,12 +139,6 @@ class Game:
             else:
                 for button in self.buttons.sprites():
                     button.check_click(event)
-
-                if event.type == pygame.KEYDOWN:
-                    match event.key:
-                        case pygame.K_SPACE:
-                            self.score.reset()
-                            self.game_active = True
 
     def run(self):
         self.load_player()
