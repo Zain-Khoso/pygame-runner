@@ -38,7 +38,7 @@ class Game:
         self.restart_button = Button("Restart", 160)
         self.login_button = Button("Login", 220)
         self.signup_button = Button("Sign Up", 280)
-        self.exit_button = Button("Exit", 340)
+        self.exit_button = Button("Exit", 340, self.exit_game)
 
         self.buttons = pygame.sprite.Group()
         self.buttons.add(self.start_button)
@@ -118,11 +118,14 @@ class Game:
 
         self.play_music()
 
+    def exit_game(self):
+        pygame.quit()
+        sys.exit()
+
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                self.exit_game()
 
             if self.game_active:
                 if event.type == self.obsticle_timer:
@@ -138,9 +141,6 @@ class Game:
                         case pygame.K_SPACE:
                             self.score.reset()
                             self.game_active = True
-                        case pygame.K_ESCAPE:
-                            pygame.quit()
-                            sys.exit()
 
     def run(self):
         self.load_player()
