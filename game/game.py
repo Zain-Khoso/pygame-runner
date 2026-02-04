@@ -93,8 +93,6 @@ class Game:
                 ("Start" if self.score.get() == 0 else "Restart", self.start_game)
             )
 
-        button_list.append(("Login", self.exit_game))
-        button_list.append(("Sign Up", self.exit_game))
         button_list.append(("Exit", self.exit_game))
 
         self.buttons.empty()
