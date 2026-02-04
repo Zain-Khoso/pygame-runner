@@ -47,7 +47,8 @@ class Game:
             self.music.play(loops=-1)
 
     def stop_music(self):
-        self.music.stop()
+        if self.music.get_num_channels() > 0:
+            self.music.stop()
 
     def load_player(self):
         self.player.add(Player())
