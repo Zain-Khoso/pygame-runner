@@ -1,5 +1,5 @@
 # Imports.
-import pygame
+import threading, requests, pygame
 from game.settings import *
 
 
@@ -15,10 +15,24 @@ class Score:
     def increase(self, by=1):
         self.score += by
 
+    def upload_task(self, data):
+        try:
+            requests.post(
+                "http://localhost:5000/api/add-score",
+                json=data,
+                timeout=10,
+            )
+        except Exception:
+            pass
+
     def reset(self, username: str | None):
         if username and self.score != 0:
-            print(f"Username: {username}")
-            print(f"Score: {self.score}")
+            data = {"username": username, "score": self.score}
+
+            thread = threading.Thread(target=self.upload_task, args=(data,))
+            thread.daemon = False
+            thread.start()
+
         self.score = 0
 
     def get(self):
