@@ -31,21 +31,8 @@ class Game:
         # Local objects.
         self.player = pygame.sprite.GroupSingle()
         self.obsticles = pygame.sprite.Group()
-        self.score = Score()
-
-        # Menu buttons
-        self.start_button = Button("Start", 100, self.continue_game)
-        self.restart_button = Button("Restart", 160, self.start_game)
-        self.login_button = Button("Login", 220)
-        self.signup_button = Button("Sign Up", 280)
-        self.exit_button = Button("Exit", 340, self.exit_game)
-
         self.buttons = pygame.sprite.Group()
-        self.buttons.add(self.start_button)
-        self.buttons.add(self.restart_button)
-        self.buttons.add(self.login_button)
-        self.buttons.add(self.signup_button)
-        self.buttons.add(self.exit_button)
+        self.score = Score()
 
         # Game stats.
         self.clock = pygame.time.Clock()
@@ -93,6 +80,26 @@ class Game:
 
         title_rect = self.title_surf.get_rect(midleft=master_rect.midleft)
         avatar_rect = self.avatar_surf.get_rect(midright=master_rect.midright)
+
+        # Buttons
+        button_list = []
+
+        if self.score.get() == 0:
+            button_list.append(("Start", self.start_game))
+        else:
+            button_list.append(("Continue", self.continue_game))
+            button_list.append(("Restart", self.start_game))
+
+        button_list.append(("Login", self.exit_game))
+        button_list.append(("Sign Up", self.exit_game))
+        button_list.append(("Exit", self.exit_game))
+
+        self.buttons.empty()
+
+        for index, button in enumerate(button_list):
+            y_pos = 100 + (index * 60)
+
+            self.buttons.add(Button(button[0], y_pos, button[1]))
 
         # Drawing menu
         self.screen.fill(menu_color)
