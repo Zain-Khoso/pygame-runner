@@ -1,23 +1,38 @@
+# Imports.
+import sys
+import os
+
+
+# Function to get an absolute path to resources
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+
 # Screen
 screen_title = "Pygame - Runner"
 screen_width = 800
 screen_height = 400
 
 # Assets
-sky_path = "assets/sky.png"
-ground_path = "assets/ground.png"
-avatar_path = "assets/player/stand.png"
-font_path = "assets/font.ttf"
-music_path = "assets/music.wav"
-obsticle_snail_frame_1_path = "assets/snail/1.png"
-obsticle_snail_frame_2_path = "assets/snail/2.png"
-obsticle_fly_frame_1_path = "assets/fly/1.png"
-obsticle_fly_frame_2_path = "assets/fly/2.png"
-player_walk_1_path = "assets/player/walk_1.png"
-player_walk_2_path = "assets/player/walk_2.png"
-player_jump_path = "assets/player/jump.png"
-player_jump_sound_path = "assets/player/jump.mp3"
-username_file_path = "username.txt"
+sky_path = resource_path("assets/sky.png")
+ground_path = resource_path("assets/ground.png")
+avatar_path = resource_path("assets/player/stand.png")
+font_path = resource_path("assets/font.ttf")
+music_path = resource_path("assets/music.wav")
+obsticle_snail_frame_1_path = resource_path("assets/snail/1.png")
+obsticle_snail_frame_2_path = resource_path("assets/snail/2.png")
+obsticle_fly_frame_1_path = resource_path("assets/fly/1.png")
+obsticle_fly_frame_2_path = resource_path("assets/fly/2.png")
+player_walk_1_path = resource_path("assets/player/walk_1.png")
+player_walk_2_path = resource_path("assets/player/walk_2.png")
+player_jump_path = resource_path("assets/player/jump.png")
+player_jump_sound_path = resource_path("assets/player/jump.mp3")
+username_file_path = resource_path("username.txt")
 
 # Menu
 menu_color = (94, 129, 162)
