@@ -3,6 +3,14 @@ import os, pygame
 from game.settings import *
 
 
+if getattr(sys, "frozen", False):
+    BASE_DIR = os.path.dirname(sys.executable)
+else:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+USER_DATA_PATH = os.path.join(BASE_DIR, "username.txt")
+
+
 # Username object - holds all the logic of changing username.
 class Username:
     def __init__(self):
@@ -13,11 +21,11 @@ class Username:
         self.value = self.read()
 
     def read(self):
-        if not os.path.exists(username_file_path):
+        if not os.path.exists(USER_DATA_PATH):
             return ""
 
         try:
-            with open(username_file_path, "r") as file:
+            with open(USER_DATA_PATH, "r") as file:
                 return file.read().strip()
         except Exception as e:
             print(f"Error reading file: {e}")
@@ -28,7 +36,7 @@ class Username:
 
     def write(self):
         try:
-            with open("username.txt", "w", encoding="utf-8") as file:
+            with open(USER_DATA_PATH, "w", encoding="utf-8") as file:
                 file.write(str(self.value).strip())
         except IOError as e:
             print(f"FileSystem Error: {e}")
